@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>🔥 Triple-Layer Custom Cipher 🔒</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1f1c42, #6246ea);
+    color: #eef0fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overscroll-behavior: none;
+  }
+  #app {
+    background: linear-gradient(145deg, #302e53, #443d80);
+    width: 92vw;
+    max-width: 900px;
+    height: 70vh;
+    border-radius: 20px;
+    box-shadow:
+      0 10px 35px rgba(50, 45, 110, 0.8),
+      inset 0 1px 4px rgba(255,255,255,0.15);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    gap: 20px;
+  }
+  header {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #cfd8ff;
+    text-shadow: 0 0 8px #8a7eff;
+    user-select: none;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    gap: 25px;
+  }
+  /* Left side - input, output text areas */
+  #text-area-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  textarea {
+    flex: 1;
+    resize: none;
+    border-radius: 15px;
+    border: none;
+    padding: 18px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Courier New', Courier, monospace;
+    color: #222;
+    background-color: #e0e1ff;
+    box-shadow:
+      0 5px 20px rgb(0 0 0 / 0.15),
+      inset 2px 2px 11px #a2a6ff;
+    transition: box-shadow 0.3s ease;
+  }
+  textarea:focus {
+    outline: none;
+    box-shadow:
+      0 4px 22px #8489ff,
+      inset 2px 2px 14px #6a6eff;
+  }
+  label {
+    color: #c7caff;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  /* Right side - controls and keys */
+  #control-group {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .keys {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  .key {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .key label {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    color: #b6bbff;
+  }
+  .key input {
+    border-radius: 12px;
+    border: none;
+    padding: 12px 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    outline: none;
+    background: #c9ceff;
+    box-shadow: inset 2px 2px 10px #8187ff;
+    transition: background 0.3s ease;
+    color: #191c2a;
+  }
+  .key input:focus {
+    background: #9fa5ff;
+    box-shadow: 0 0 10px #9299ff;
+  }
+  .buttons {
+    display: flex;
+    gap: 18px;
+  }
+  button {
+    flex: 1;
+    padding: 14px 0;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #7785ff 0%, #3f4fe1 100%);
+    cursor: pointer;
+    box-shadow:
+      0 6px 15px rgba(63,79,225,0.8),
+      inset 0 -3px 12px rgba(0,0,120,0.5);
+    user-select: none;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  button:hover, button:focus {
+    background: linear-gradient(135deg, #3f4fe1 0%, #7785ff 100%);
+    box-shadow:
+      0 7px 26px rgba(63,79,225,1),
+      inset 0 -4px 14px rgba(0,0,150,0.7);
+    outline: none;
+  }
+  footer {
+    text-align: center;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #aaaaffcc;
+    user-select: none;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  /* Responsive for smaller landscape and portrait */
+  @media (max-width: 880px) {
+    #app {
+      height: auto;
+      padding: 25px 30px;
+      gap: 15px;
+    }
+    main {
+      flex-direction: column;
+    }
+    #control-group {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .keys {
+      width: 65%;
+      gap: 12px;
+    }
+    .buttons {
+      width: 32%;
+      flex-direction: column;
+      gap: 12px;
+    }
+    button {
+      font-size: 1rem;
+      padding: 12px 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="app" role="main" aria-label="Triple Layer Custom Cipher">
+    <header>🔥 Triple-Layer Custom Cipher 🔒</header>
+    <main>
+      <section id="text-area-group">
+        <label for="inputText">Input Text</label>
+        <textarea id="inputText" placeholder="Type your message here..." aria-label="Input Text" spellcheck="false"></textarea>
+        <label for="outputText">Output Text</label>
+        <textarea id="outputText" readonly aria-label="Output Text" spellcheck="false"></textarea>
+      </section>
+      <section id="control-group" aria-label="Cipher controls and keys">
+        <div class="keys">
+          <div class="key">
+            <label for="key1">Key 1 (Shift 1-25)</label>
+            <input type="number" id="key1" min="1" max="25" value="3" aria-label="Key 1 Shift" />
+          </div>
+          <div class="key">
+            <label for="key2">Key 2 (Group Size 2-10)</label>
+            <input type="number" id="key2" min="2" max="10" value="3" aria-label="Key 2 Group Size" />
+          </div>
+          <div class="key">
+            <label for="key3">Key 3 (XOR key 1-255)</label>
+            <input type="number" id="key3" min="1" max="255" value="42" aria-label="Key 3 XOR Key" />
+          </div>
+        </div>
+        <div class="buttons">
+          <button id="encryptBtn" aria-label="Encrypt Text">Encrypt</button>
+          <button id="decryptBtn" aria-label="Decrypt Text">Decrypt</button>
+        </div>
+      </section>
+    </main>
+    <footer>Developer: Ashutosh Jhariya</footer>
+  </div>
+
+<script>
+// Triple-layer custom cipher functions
+
+function shiftChar(c, key) {
+  const A = 'A'.charCodeAt(0);
+  const a = 'a'.charCodeAt(0);
+
+  if (c >= 'A' && c <= 'Z') {
+    return String.fromCharCode(((c.charCodeAt(0) - A + key) % 26) + A);
+  }
+  if (c >= 'a' && c <= 'z') {
+    return String.fromCharCode(((c.charCodeAt(0) - a + key) % 26) + a);
+  }
+  return c;
+}
+
+function unshiftChar(c, key) {
+  return shiftChar(c, 26 - (key % 26));
+}
+
+function groupReverse(str, groupSize) {
+  let result = '';
+  for (let i = 0; i < str.length; i += groupSize) {
+    let group = str.slice(i, i + groupSize);
+    result += group.split('').reverse().join('');
+  }
+  return result;
+}
+
+function xorString(str, key) {
+  let result = '';
+  for (let i = 0; i < str.length; i++) {
+    let code = str.charCodeAt(i) ^ key;
+    result += String.fromCharCode(code);
+  }
+  return result;
+}
+
+function encrypt(text, k1, k2, k3) {
+  let shifted = Array.from(text).map(c => shiftChar(c, k1)).join('');
+  let reversed = groupReverse(shifted, k2);
+  let encrypted = xorString(reversed, k3);
+  return encrypted;
+}
+
+function decrypt(text, k1, k2, k3) {
+  let xorRev = xorString(text, k3);
+  let reversedRev = groupReverse(xorRev, k2);
+  let decrypted = Array.from(reversedRev).map(c => unshiftChar(c, k1)).join('');
+  return decrypted;
+}
+
+const inputText = document.getElementById('inputText');
+const key1 = document.getElementById('key1');
+const key2 = document.getElementById('key2');
+const key3 = document.getElementById('key3');
+const encryptBtn = document.getElementById('encryptBtn');
+const decryptBtn = document.getElementById('decryptBtn');
+const outputText = document.getElementById('outputText');
+
+encryptBtn.addEventListener('click', () => {
+  const text = inputText.value.trim();
+  const k1 = parseInt(key1.value);
+  const k2 = parseInt(key2.value);
+  const k3 = parseInt(key3.value);
+
+  if (!text) {
+    alert('Please enter text to encrypt.');
+    return;
+  }
+  if (
+    isNaN(k1) || k1 < 1 || k1 > 25 ||
+    isNaN(k2) || k2 < 2 || k2 > 10 ||
+    isNaN(k3) || k3 < 1 || k3 > 255
+  ) {
+    alert('Please use valid keys in specified ranges.');
+    return;
+  }
+  outputText.value = encrypt(text, k1, k2, k3);
+});
+
+decryptBtn.addEventListener('click', () => {
+  const text = inputText.value.trim();
+  const k1 = parseInt(key1.value);
+  const k2 = parseInt(key2.value);
+  const k3 = parseInt(key3.value);
+
+  if (!text) {
+    alert('Please enter text to decrypt.');
+    return;
+  }
+  if (
+    isNaN(k1) || k1 < 1 || k1 > 25 ||
+    isNaN(k2) || k2 < 2 || k2 > 10 ||
+    isNaN(k3) || k3 < 1 || k3 > 255
+  ) {
+    alert('Please use valid keys in specified ranges.');
+    return;
+  }
+  outputText.value = decrypt(text, k1, k2, k3);
+});
+</script>
+
+</body>
+</html>
