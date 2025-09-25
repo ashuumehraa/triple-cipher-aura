@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Triple-Layer Custom Cipher</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Triple-Layer Custom Cipher</h1>
+
+    <label for="inputText">Enter Text</label>
+    <textarea id="inputText" placeholder="Type your message here..."></textarea>
+
+    <label for="key1">Key 1 (Shift 1-25)</label>
+    <input type="number" id="key1" min="1" max="25" value="3" />
+
+    <label for="key2">Key 2 (Group Size 2-10)</label>
+    <input type="number" id="key2" min="2" max="10" value="3" />
+
+    <label for="key3">Key 3 (XOR key 1-255)</label>
+    <input type="number" id="key3" min="1" max="255" value="42" />
+
+    <div class="btn-container">
+      <button id="encryptBtn">Encrypt</button>
+      <button id="decryptBtn">Decrypt</button>
+    </div>
+
+    <label for="outputText">Output</label>
+    <textarea id="outputText" readonly></textarea>
+  </div>
+  <footer>Custom Triple Cipher | Developer: Abhinav Kumar Rath</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
